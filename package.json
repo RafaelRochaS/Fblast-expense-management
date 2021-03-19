@@ -1,0 +1,18 @@
+{
+  "name": "exp-mgmt-svc",
+  "version": "0.0.1",
+  "description": "Microservice for CRUD operations on expenses and income.",
+  "main": "start.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://RafaelSouza0095@dev.azure.com/RafaelSouza0095/FinancialBlast-Backend/_git/exp-mgmt-svc"
+  },
+  "author": "Rafael Rocha",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
