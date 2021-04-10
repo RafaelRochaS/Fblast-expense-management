@@ -37,3 +37,22 @@ jobs:
   - script: |
       npm run audit
     displayName: 'Security Audit'
+
+- job: SonarCloud
+  dependsOn: Build_and_Test
+  steps:
+  - task: SonarCloudPrepare@1
+    inputs:
+      SonarCloud: 'Sonarcloud'
+      organization: 'rafaelsouza0095'
+      scannerMode: 'CLI'
+      configMode: 'manual'
+      cliProjectKey: 'RafaelSouza0095_FinancialBlast-Backend'
+      cliProjectName: 'FinancialBlast-Backend'
+      cliSources: '.'
+
+  - task: SonarCloudAnalyze@1
+
+  - task: SonarCloudPublish@1
+    inputs:
+      pollingTimeoutSec: '300'
