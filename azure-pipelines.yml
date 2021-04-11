@@ -47,8 +47,9 @@ jobs:
       organization: 'rafaelsouza0095'
       scannerMode: 'CLI'
       configMode: 'manual'
-      cliProjectKey: 'RafaelSouza0095_FinancialBlast-Backend'
-      cliProjectName: 'FinancialBlast-Backend'
+      cliProjectKey: 'RafaelSouza0095_exp-mgmt-svc'
+      cliProjectName: 'exp-mgmt-svc'
+      cliProjectVersion: '0.0.1'
       cliSources: '.'
 
   - task: SonarCloudAnalyze@1
