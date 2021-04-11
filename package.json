@@ -8,7 +8,9 @@
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --runInBand",
     "lint": "node_modules/.bin/eslint .",
     "lint:fix": "node_modules/.bin/eslint . --fix",
-    "audit": "npx npm-audit-ci-wrapper -t moderate"
+    "audit": "npx npm-audit-ci-wrapper -t moderate",
+    "knex:migrate": "knex --knexfile knexfile.cjs migrate:latest",
+    "knex:migrate:rollback": "knex --knexfile knexfile.cjs migrate:rollback"
   },
   "repository": {
     "type": "git",
