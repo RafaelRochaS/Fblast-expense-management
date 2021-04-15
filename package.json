@@ -10,7 +10,8 @@
     "lint:fix": "node_modules/.bin/eslint . --fix",
     "audit": "npx npm-audit-ci-wrapper -t moderate",
     "knex:migrate": "knex --knexfile knexfile.cjs migrate:latest",
-    "knex:migrate:rollback": "knex --knexfile knexfile.cjs migrate:rollback"
+    "knex:migrate:rollback": "knex --knexfile knexfile.cjs migrate:rollback",
+    "knex:seed": "knex --knexfile knexfile.cjs seed:run"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
+    "chai": "^4.3.4",
     "dotenv": "^8.2.0",
     "eslint": "^7.24.0",
     "eslint-config-google": "^0.14.0",

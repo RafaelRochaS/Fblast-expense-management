@@ -3,8 +3,11 @@ module.exports = {
   connection: {
     filename:'./src/database/database.sqlite'
   },
+  useNullAsDefault: true,
   migrations: {
     directory: './src/database/migrations'
   },
-  useNullAsDefault: true,
+  seeds: {
+    directory: './src/database/seeds'
+  },
 };
