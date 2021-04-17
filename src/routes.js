@@ -1,5 +1,10 @@
 import express from 'express';
-import { index, create } from './controllers/UsersController.js';
+import { 
+  index as userIndex, 
+  create as userCreate,
+  update as userUpdate,
+  remove as userRemove
+} from './controllers/UsersController.js';
 
 // eslint-disable-next-line new-cap
 const routes = express.Router();
@@ -15,7 +20,9 @@ routes.get('/api/v1/', (request, response) => {
 });
 
 /*** Users */
-routes.get('/api/v1/users', index);
-routes.put('/api/v1/users', create);
+routes.get('/api/v1/users', userIndex);
+routes.put('/api/v1/users', userCreate);
+routes.patch('/api/v1/users/:id', userUpdate);
+routes.delete('/api/v1/users/:id', userRemove);
 
 export default routes;

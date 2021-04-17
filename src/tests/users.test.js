@@ -13,7 +13,6 @@ const testUser = {
 };
 
 const USER_API = '/api/v1/users';
-const TEST_ID = 2;
 const TEST_NAME = 'TestUpdate';
 
 describe('/api/v1/users', () => {
@@ -29,7 +28,7 @@ describe('/api/v1/users', () => {
             .expect(200)
             .expect('Content-Type', 'application/json; charset=utf-8')
             .then(response => {
-                expect(response.body).toContainEqual({ username: 'Joe da Quebrada' });
+                expect(response.body).toMatchObject([{ username: 'Joe da Quebrada' }]);
             });
     });
 
@@ -45,16 +44,72 @@ describe('/api/v1/users', () => {
             .expect(200)
             .expect('Content-Type', 'application/json; charset=utf-8')
             .then(response => {
-                expect(response.body).toContainEqual({ username: 'TestUser' });
+                expect(response.body).toEqual(
+                    expect.arrayContaining([
+                        expect.objectContaining({ username: 'TestUser' })
+                    ])
+                )
             });
     });
 
-    test('updates new user', async() => {
+    test('updates new user', async () => {
 
-        await api.patch(USER_API + `/${TEST_ID}`)
-            .send({ name: TEST_NAME})
+        let test_id;
+
+        await db('users')
+            .select('id')
+            .where({ username: 'TestUser' })
+            .then(data => {
+                test_id = data;
+            });
+
+        await api.patch(`${USER_API}/${test_id[0].id}`)
+            .send({ username: TEST_NAME })
             .expect(200);
-    })
+    });
 
+    test('returns updated user', async () => {
+
+        await api.get(USER_API)
+            .expect(200)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+            .then(response => {
+                expect(response.body).toEqual(
+                    expect.arrayContaining([
+                        expect.objectContaining({ username: TEST_NAME })
+                    ])
+                )
+            });
+
+    });
+
+    test('deletes test user', async () => {
+
+        let test_id;
+
+        await db('users')
+            .select('id')
+            .where({ username: TEST_NAME })
+            .then(data => {
+                test_id = data;
+            });
+
+        await api.delete(`${USER_API}/${test_id[0].id}`)
+            .expect(200);
+    });
+
+    test('does not returns test user', async () => {
+
+        await api.get(USER_API)
+            .expect(200)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+            .then(response => {
+                expect(response.body).not.toEqual(
+                    expect.arrayContaining([
+                        expect.objectContaining({ username: TEST_NAME })
+                    ])
+                )
+            });
+
+    });
 });
-
