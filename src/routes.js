@@ -21,7 +21,7 @@ routes.get('/api/v1/', (request, response) => {
 
 /*** Users */
 routes.get('/api/v1/users', userIndex);
-routes.put('/api/v1/users', userCreate);
+routes.post('/api/v1/users', userCreate);
 routes.patch('/api/v1/users/:id', userUpdate);
 routes.delete('/api/v1/users/:id', userRemove);
 

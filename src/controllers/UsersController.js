@@ -55,6 +55,12 @@ export async function create(request, response) {
 
 export async function update(request, response) {
 
+    let exists = await checkIdExists(request.params.id)
+
+    if (!exists) {
+        return response.status(400).json({ error: 'UserId not found' });
+    }
+
     const {
         username,
         first_name,
@@ -107,4 +113,26 @@ export async function remove(request, response) {
         console.error(err);
         response.status(400).json({ error: 'Unexpected error while deleting user' });
     };
+}
+
+
+async function checkIdExists(id) {
+
+    let hasId;
+    let exists = false;
+    let numId = parseInt(id);
+
+    await db('users')
+        .select('id')
+        .then(data => hasId = data);
+
+
+    for (let index = 0; index < hasId.length; index++) {
+        if (hasId[index].id === numId) {
+            exists = true;
+            break;
+        }
+    }
+
+    return exists;
 }

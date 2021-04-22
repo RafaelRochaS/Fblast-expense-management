@@ -12,6 +12,13 @@ const testUser = {
     password: '123456'
 };
 
+const testUserInvalid = {   // user without last name
+    username: 'TestUser',
+    first_name: 'Test',
+    email: 'test@user.com',
+    password: '123456'
+};
+
 const USER_API = '/api/v1/users';
 const TEST_NAME = 'TestUpdate';
 
@@ -33,7 +40,7 @@ describe('/api/v1/users', () => {
     });
 
     test('add user successfully', async () => {
-        await api.put(USER_API)
+        await api.post(USER_API)
             .send(testUser)
             .expect(201);
     });
@@ -111,5 +118,29 @@ describe('/api/v1/users', () => {
                 )
             });
 
+    });
+
+    test('does not create user with missing values', async () => {
+
+        await api.post(USER_API)
+            .send(testUserInvalid)
+            .expect(400);
+    });
+
+    test('reject update on unexisting id', async () => {
+
+        let invalidId;
+
+        await db('users')
+            .select('id')
+            .orderBy('id', 'desc')
+            .first()
+            .then(data => invalidId = data);
+
+        invalidId = invalidId.id + 1;
+
+        await api.patch(`${USER_API}/${invalidId}`)
+            .send({ username: TEST_NAME })
+            .expect(400);
     });
 });
