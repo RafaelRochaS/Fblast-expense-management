@@ -62,3 +62,6 @@ typings/
 
 # DB
 *.sqlite
+
+# VSCode
+.vscode

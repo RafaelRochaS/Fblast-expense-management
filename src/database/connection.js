@@ -8,7 +8,7 @@ if (ENVIRONMENT === 'dev') {
   db = knex({
     client: 'sqlite3',
     connection: {
-      filename: '/home/rafael/FinancialBlast/exp-mgmt-svc/src/database/database.sqlite',
+      filename: path.resolve(__dirname, '..', 'database', 'database.sqlite')
     },
     useNullAsDefault: true,
   });

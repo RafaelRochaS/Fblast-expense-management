@@ -21,6 +21,7 @@ const testUserInvalid = {   // user without last name
 
 const USER_API = '/api/v1/users';
 const TEST_NAME = 'TestUpdate';
+const DEFAULT_USER_NAME = 'Joe da Quebrada';
 
 describe('/api/v1/users', () => {
 
@@ -36,6 +37,35 @@ describe('/api/v1/users', () => {
             .expect('Content-Type', 'application/json; charset=utf-8')
             .then(response => {
                 expect(response.body).toMatchObject([{ username: 'Joe da Quebrada' }]);
+            });
+    });
+
+    test('returns default user by id', async () => {
+
+        let default_id;
+
+        await db('users')
+            .select('id')
+            .where({ username: DEFAULT_USER_NAME })
+            .then(data => {
+                default_id = data;
+            });
+
+        await api.get(`${USER_API}/${default_id[0].id}`)
+            .expect(200)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+            .then(response => {
+                expect(expect(response.body).toMatchObject([{ username: 'Joe da Quebrada' }]));
+            });
+    });
+
+    test('returns defualt user by username', async () => {
+
+        await api.get(`${USER_API}/?user=${DEFAULT_USER_NAME}`)
+            .expect(200)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+            .then(response => {
+                expect(expect(response.body).toMatchObject([{ username: 'Joe da Quebrada' }]));
             });
     });
 
@@ -70,7 +100,7 @@ describe('/api/v1/users', () => {
                 test_id = data;
             });
 
-        await api.patch(`${USER_API}/${test_id[0].id}`)
+        await api.put(`${USER_API}/${test_id[0].id}`)
             .send({ username: TEST_NAME })
             .expect(200);
     });
@@ -129,18 +159,33 @@ describe('/api/v1/users', () => {
 
     test('reject update on unexisting id', async () => {
 
-        let invalidId;
+        let invalidId = await getInvalidId();
 
-        await db('users')
-            .select('id')
-            .orderBy('id', 'desc')
-            .first()
-            .then(data => invalidId = data);
-
-        invalidId = invalidId.id + 1;
-
-        await api.patch(`${USER_API}/${invalidId}`)
+        await api.put(`${USER_API}/${invalidId}`)
             .send({ username: TEST_NAME })
-            .expect(400);
+            .expect(404);
+    });
+
+    test('return 404 on deleting unexistent user', async () => {
+
+        let invalidId = await getInvalidId();
+
+        await api.delete(`${USER_API}/${invalidId}`)
+            .expect(404);
     });
 });
+
+async function getInvalidId() {
+
+    let invalidId;
+
+    await db('users')
+        .select('id')
+        .orderBy('id', 'desc')
+        .first()
+        .then(data => invalidId = data);
+
+    invalidId = invalidId.id + 1;
+
+    return invalidId;
+}

@@ -1,12 +1,42 @@
+/* eslint-disable require-jsdoc */
 import db from '../database/connection.js';
 
 export async function index(request, response) {
+
+    let usernameQuery;
+
+    if (request.params.id != null) {
+
+        let exists = await checkIdExists(request.params.id)
+
+        if (!exists) {
+            return response.status(400).json({ error: 'UserId not found' });
+        }
+    }
+
+    if (request.query.user != null) {
+
+        usernameQuery = request.query.user;
+        let exists = await checkUsernameExists(usernameQuery);
+
+        if (!exists) {
+            return response.status(400).json({ error: 'Username not found' });
+        }
+    }
 
     let users;
 
     try {
         await db('users')
             .select('*')
+            .modify((queryBuilder) => {
+                if (request.params.id != null) {
+                    queryBuilder.where({ id: request.params.id });
+                }
+                if (usernameQuery != null) {
+                    queryBuilder.where({ username: usernameQuery });
+                }
+            })
             .then(data => {
                 users = data;
             });
@@ -25,15 +55,14 @@ export async function create(request, response) {
         first_name,
         last_name,
         email,
-        password
+        password,
     } = request.body;
 
-    //check if any value is missing
+    // check if any value is missing
 
     const trx = await db.transaction();
 
     try {
-
         await trx('users').insert({
             username: username,
             first_name: first_name,
@@ -45,11 +74,11 @@ export async function create(request, response) {
         await trx.commit();
 
         response.status(201).send();
-
     } catch (err) {
         await trx.rollback();
         console.error(err);
-        response.status(400).json({ error: 'Unexpected error while creating new user' });
+        response.status(400)
+            .json({ error: 'Unexpected error while creating new user' });
     };
 }
 
@@ -58,7 +87,7 @@ export async function update(request, response) {
     let exists = await checkIdExists(request.params.id)
 
     if (!exists) {
-        return response.status(400).json({ error: 'UserId not found' });
+        return response.status(404).json({ error: 'UserId not found' });
     }
 
     const {
@@ -96,6 +125,12 @@ export async function update(request, response) {
 
 export async function remove(request, response) {
 
+    let exists = await checkIdExists(request.params.id)
+
+    if (!exists) {
+        return response.status(404).json({ error: 'UserId not found' });
+    }
+
     const trx = await db.transaction();
 
     try {
@@ -129,6 +164,26 @@ async function checkIdExists(id) {
 
     for (let index = 0; index < hasId.length; index++) {
         if (hasId[index].id === numId) {
+            exists = true;
+            break;
+        }
+    }
+
+    return exists;
+}
+
+async function checkUsernameExists(name) {
+
+    let hasId;
+    let exists = false;
+
+    await db('users')
+        .select('username')
+        .then(data => hasId = data);
+
+
+    for (let index = 0; index < hasId.length; index++) {
+        if (hasId[index].username === name) {
             exists = true;
             break;
         }
