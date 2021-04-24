@@ -10,7 +10,7 @@ export async function index(request, response) {
         let exists = await checkIdExists(request.params.id)
 
         if (!exists) {
-            return response.status(400).json({ error: 'UserId not found' });
+            return response.status(404).json({ error: 'UserId not found' });
         }
     }
 
@@ -20,7 +20,7 @@ export async function index(request, response) {
         let exists = await checkUsernameExists(usernameQuery);
 
         if (!exists) {
-            return response.status(400).json({ error: 'Username not found' });
+            return response.status(404).json({ error: 'Username not found' });
         }
     }
 

@@ -22,6 +22,7 @@ const testUserInvalid = {   // user without last name
 const USER_API = '/api/v1/users';
 const TEST_NAME = 'TestUpdate';
 const DEFAULT_USER_NAME = 'Joe da Quebrada';
+const INVALID_USER_NAME = 'çz.;lmx,kcdviosrskojun';
 
 describe('/api/v1/users', () => {
 
@@ -171,6 +172,20 @@ describe('/api/v1/users', () => {
         let invalidId = await getInvalidId();
 
         await api.delete(`${USER_API}/${invalidId}`)
+            .expect(404);
+    });
+
+    test('return 404 on user id invalid', async () => {
+
+        let invalidId = await getInvalidId();
+
+        await api.get(`${USER_API}/${invalidId}`)
+            .expect(404);
+    });
+
+    test('return 404 on username invalid', async () => {
+
+        await api.get(`${USER_API}?user=${INVALID_USER_NAME}`)
             .expect(404);
     });
 });
