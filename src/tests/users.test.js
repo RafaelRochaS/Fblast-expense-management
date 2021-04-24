@@ -6,15 +6,15 @@ const api = supertest(app);
 
 const testUser = {
     username: 'TestUser',
-    first_name: 'Test',
-    last_name: 'User',
+    firstName: 'Test',
+    lastName: 'User',
     email: 'test@user.com',
     password: '123456'
 };
 
 const testUserInvalid = {   // user without last name
     username: 'TestUser',
-    first_name: 'Test',
+    firstName: 'Test',
     email: 'test@user.com',
     password: '123456'
 };

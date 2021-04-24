@@ -1,9 +1,10 @@
 import express from 'express';
 import cors from 'cors';
-import routes from './routes.js';
-import {default as logger} from 'morgan';
-import {LOG_FORMAT} from './utils/config.js';
+// eslint-disable-next-line import/no-named-default
+import { default as logger } from 'morgan';
 import * as util from 'util';
+import routes from './routes.js';
+import { LOG_FORMAT } from './utils/config.js';
 
 const app = express();
 
@@ -12,7 +13,7 @@ app.use(cors());
 app.use(logger(LOG_FORMAT));
 app.use(routes);
 
-process.on('uncaughtException', function(err) {
+process.on('uncaughtException', (err) => {
   console.error(`I've crashed!!! - ${(err.stack || err)}`);
 });
 
