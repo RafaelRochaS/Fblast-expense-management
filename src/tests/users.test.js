@@ -29,7 +29,7 @@ describe('/api/v1/users', () => {
     afterAll(done => {
         db.destroy();
         done();
-    })
+    });
 
     test('returns default user', async () => {
 
