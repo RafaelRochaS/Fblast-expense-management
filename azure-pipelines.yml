@@ -27,6 +27,7 @@ jobs:
       path: '$(npm_config_cache)'
       
   - script: |
+      npm run knex:migrate
       npm run test
     displayName: 'Test'
 
