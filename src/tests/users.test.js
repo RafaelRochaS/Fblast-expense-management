@@ -60,7 +60,7 @@ describe('/api/v1/users', () => {
             });
     });
 
-    test('returns defualt user by username', async () => {
+    test('returns default user by username', async () => {
 
         await api.get(`${USER_API}/?user=${DEFAULT_USER_NAME}`)
             .expect(200)
@@ -71,9 +71,17 @@ describe('/api/v1/users', () => {
     });
 
     test('add user successfully', async () => {
+        
         await api.post(USER_API)
             .send(testUser)
             .expect(201);
+    });
+
+    test('does not add existing user', async () => {
+        
+        await api.post(USER_API)
+            .send(testUser)
+            .expect(400);
     });
 
     test('returns new user', async () => {

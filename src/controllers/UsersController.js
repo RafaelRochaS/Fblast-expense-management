@@ -58,7 +58,11 @@ export async function create(request, response) {
         password,
     } = request.body;
 
-    // check if any value is missing
+    let usernameExists = await checkUsernameExists(username);
+
+    if (usernameExists) {
+        return response.status(400).json({ error: 'Username already exists' });
+    }
 
     const trx = await db.transaction();
 
@@ -77,7 +81,8 @@ export async function create(request, response) {
     } catch (err) {
         await trx.rollback();
         console.error(err);
-        response.status(400)
+        response
+            .status(400)
             .json({ error: 'Unexpected error while creating new user' });
     };
 }
