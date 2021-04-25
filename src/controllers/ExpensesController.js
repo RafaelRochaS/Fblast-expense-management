@@ -1,4 +1,5 @@
 import db from '../database/connection.js';
+import { checkIdExists, checkExpenseIdExists } from '../utils/helper.js';
 
 export async function index(request, response) {
   let expn;
@@ -17,13 +18,96 @@ export async function index(request, response) {
 }
 
 export async function create(request, response) {
-  return response.status(500);
+  const {
+    userId,
+    item,
+    value,
+    dateDue,
+  } = request.body;
+
+  const exists = await checkIdExists(userId);
+
+  if (!exists) {
+    return response.status(404).json({ error: 'UserId not found' });
+  }
+
+  const trx = await db.transaction();
+
+  try {
+    await trx('expenses').insert({
+      userId,
+      item,
+      value,
+      dateDue,
+    });
+
+    await trx.commit();
+    response.status(201).send();
+  } catch (err) {
+    await trx.rollback();
+    console.error(err);
+    response
+      .status(400)
+      .json({ error: 'Unexpected error while creating new expense' });
+  }
 }
 
 export async function update(request, response) {
-  return response.status(500);
+  const exists = await checkExpenseIdExists(request.params.id);
+
+  if (!exists) {
+    return response.status(404).json({ error: 'ExpenseId not found' });
+  }
+
+  const {
+    item,
+    value,
+    dateDue,
+  } = request.body;
+
+  const trx = await db.transaction();
+
+  try {
+    await trx('expenses')
+      .where({ id: request.params.id })
+      .update({
+        item,
+        value,
+        dateDue,
+      });
+
+    await trx.commit();
+    response.status(200).json({ update: 'sucessful' });
+  } catch (err) {
+    await trx.rollback();
+    console.error(err);
+    response
+      .status(400)
+      .json({ error: 'Unexpected error while creating updating expense' });
+  }
 }
 
 export async function remove(request, response) {
-  return response.status(500);
+  const exists = await checkExpenseIdExists(request.params.id);
+
+  if (!exists) {
+    return response.status(404).json({ error: 'ExpenseId not found' });
+  }
+
+  const trx = await db.transaction();
+
+  try {
+    await trx('expenses')
+      .where({ id: request.params.id })
+      .del();
+
+    await trx.commit();
+    response.status(200).json({ remove: 'sucessful' });
+  } catch (err) {
+    await trx.rollback();
+    console.error(err);
+    response
+      .status(400)
+      .json({ error: 'Unexpected error while creating updating expense' });
+  }
 }

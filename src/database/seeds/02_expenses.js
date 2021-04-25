@@ -1,13 +1,13 @@
 
 export async function seed(knex) {
 
-  let default_id;
+  let defaultId;
 
   await knex('users')
     .select('id')
     .where({ username: 'Joe da Quebrada' })
     .then(data => {
-      default_id = data[0].id;
+      defaultId = data[0].id;
     });
 
   // Deletes ALL existing entries
@@ -15,10 +15,10 @@ export async function seed(knex) {
     .then(function () {
       // Inserts seed entries
       return knex('expenses').insert([
-        { user_id: default_id, item: 'Electric', value: 70, date_due: new Date(2021, 5, 1) },
-        { user_id: default_id, item: 'Gas', value: 60, date_due: new Date(2021, 5, 8) },
-        { user_id: default_id, item: 'Food', value: 650.8, date_due: new Date(2021, 4, 28) },
-        { user_id: default_id, item: 'Beer', value: 950.7, date_due: new Date(2021, 4, 23) }
+        { userId: defaultId, item: 'Electric', value: 70, dateDue: new Date(2021, 5, 1) },
+        { userId: defaultId, item: 'Gas', value: 60, dateDue: new Date(2021, 5, 8) },
+        { userId: defaultId, item: 'Food', value: 650.8, dateDue: new Date(2021, 4, 28) },
+        { userId: defaultId, item: 'Beer', value: 950.7, dateDue: new Date(2021, 4, 23) }
       ]);
     });
 }

@@ -32,7 +32,7 @@ routes.delete(`${API_V1}/users/:id`, userRemove);
 /** * Expenses */
 routes.get(`${API_V1}/expenses`, expIndex);
 routes.post(`${API_V1}/expenses`, expCreate);
-routes.put(`${API_V1}/expenses`, expUpdate);
-routes.delete(`${API_V1}/expenses`, expRemove);
+routes.put(`${API_V1}/expenses/:id`, expUpdate);
+routes.delete(`${API_V1}/expenses/:id`, expRemove);
 
 export default routes;
