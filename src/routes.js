@@ -31,6 +31,7 @@ routes.delete(`${API_V1}/users/:id`, userRemove);
 
 /** * Expenses */
 routes.get(`${API_V1}/expenses`, expIndex);
+routes.get(`${API_V1}/expenses/:id`, expIndex);
 routes.post(`${API_V1}/expenses`, expCreate);
 routes.put(`${API_V1}/expenses/:id`, expUpdate);
 routes.delete(`${API_V1}/expenses/:id`, expRemove);

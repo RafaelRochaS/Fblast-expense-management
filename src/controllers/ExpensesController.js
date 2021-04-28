@@ -2,11 +2,24 @@ import db from '../database/connection.js';
 import { checkIdExists, checkExpenseIdExists } from '../utils/helper.js';
 
 export async function index(request, response) {
+  if (request.params.id != null) {
+    const exists = await checkExpenseIdExists(request.params.id);
+
+    if (!exists) {
+      return response.status(404).json({ error: 'ExpenseId not found' });
+    }
+  }
+
   let expn;
 
   try {
     await db('expenses')
       .select('*')
+      .modify((queryBuilder) => {
+        if (request.params.id != null) {
+          queryBuilder.where({ id: request.params.id });
+        }
+      })
       .then((data) => {
         expn = data;
       });

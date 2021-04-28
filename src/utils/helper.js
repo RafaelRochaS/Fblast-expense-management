@@ -55,3 +55,17 @@ export async function checkExpenseIdExists(id) {
 
   return exists;
 }
+
+export async function getInvalidUserId() {
+  let invalidId;
+
+  await db('users')
+    .select('id')
+    .orderBy('id', 'desc')
+    .first()
+    .then((data) => invalidId = data);
+
+  invalidId = invalidId.id + 1;
+
+  return invalidId;
+}

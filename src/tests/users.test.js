@@ -1,6 +1,7 @@
 import supertest from 'supertest';
 import app from '../server.js';
 import db from '../database/connection.js';
+import { getInvalidUserId } from '../utils/helper.js'
 
 const api = supertest(app);
 
@@ -168,7 +169,7 @@ describe('/api/v1/users', () => {
 
     test('reject update on unexisting id', async () => {
 
-        let invalidId = await getInvalidId();
+        let invalidId = await getInvalidUserId();
 
         await api.put(`${USER_API}/${invalidId}`)
             .send({ username: TEST_NAME })
@@ -177,7 +178,7 @@ describe('/api/v1/users', () => {
 
     test('return 404 on deleting unexistent user', async () => {
 
-        let invalidId = await getInvalidId();
+        let invalidId = await getInvalidUserId();
 
         await api.delete(`${USER_API}/${invalidId}`)
             .expect(404);
@@ -185,7 +186,7 @@ describe('/api/v1/users', () => {
 
     test('return 404 on user id invalid', async () => {
 
-        let invalidId = await getInvalidId();
+        let invalidId = await getInvalidUserId();
 
         await api.get(`${USER_API}/${invalidId}`)
             .expect(404);
@@ -197,18 +198,3 @@ describe('/api/v1/users', () => {
             .expect(404);
     });
 });
-
-async function getInvalidId() {
-
-    let invalidId;
-
-    await db('users')
-        .select('id')
-        .orderBy('id', 'desc')
-        .first()
-        .then(data => invalidId = data);
-
-    invalidId = invalidId.id + 1;
-
-    return invalidId;
-}
