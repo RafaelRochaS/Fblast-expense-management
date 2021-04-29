@@ -52,6 +52,7 @@ jobs:
       cliProjectName: 'exp-mgmt-svc'
       cliProjectVersion: '0.0.1'
       cliSources: '.'
+      sonar.javascript.lcov.reportPaths: './coverage/'
 
   - task: SonarCloudAnalyze@1
 
