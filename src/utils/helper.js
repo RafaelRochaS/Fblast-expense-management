@@ -69,3 +69,16 @@ export async function getInvalidUserId() {
 
   return invalidId;
 }
+
+export async function getDefaultId() {
+  let defaultId;
+
+  await db('users')
+    .select('id')
+    .where({ username: 'Joe da Quebrada' })
+    .then((data) => {
+      defaultId = data[0].id;
+    });
+
+  return defaultId;
+}

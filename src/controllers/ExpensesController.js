@@ -96,7 +96,7 @@ export async function update(request, response) {
     console.error(err);
     response
       .status(400)
-      .json({ error: 'Unexpected error while creating updating expense' });
+      .json({ error: 'Unexpected error while updating expense' });
   }
 }
 

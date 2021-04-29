@@ -1,7 +1,7 @@
 import supertest from 'supertest';
 import app from '../server.js';
 import db from '../database/connection.js';
-import { getInvalidUserId } from '../utils/helper.js';
+import { getInvalidUserId, getDefaultId } from '../utils/helper.js';
 
 const api = supertest(app);
 
@@ -62,6 +62,14 @@ describe('/api/v1/expenses', () => {
       .expect(200);
   });
 
+  test('update with empty body returns 400', async () => {
+
+    let testId = await getTestId();
+
+    await api.put(`${EXPENSES_API}/${testId[0].id}`)
+      .expect(400);
+  });
+
   test('returns updated test expense successfully', async () => {
 
     let testId = await getTestId();
@@ -83,7 +91,7 @@ describe('/api/v1/expenses', () => {
   });
 
   test('returns 404 on invalid expense id', async () => {
-    
+
     let invalidId = await getInvalidExpenseId();
 
     await api.get(`${EXPENSES_API}/${invalidId}`)
@@ -108,21 +116,16 @@ describe('/api/v1/expenses', () => {
       .send(missingExpense)
       .expect(400);
   });
+
+  test('returns 404 on updating invalid expense', async () => {
+
+    let invalidExpenseId = await getInvalidExpenseId();
+
+    await api.put(`${EXPENSES_API}/${invalidExpenseId}`)
+      .send({ item: 'InvalidTest' })
+      .expect(404);
+  });
 });
-
-async function getDefaultId() {
-
-  let defaultId;
-
-  await db('users')
-    .select('id')
-    .where({ username: 'Joe da Quebrada' })
-    .then(data => {
-      defaultId = data[0].id;
-    });
-
-  return defaultId;
-}
 
 async function getTestId() {
   let testId;

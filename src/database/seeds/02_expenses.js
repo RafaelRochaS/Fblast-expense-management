@@ -1,14 +1,8 @@
+import { getDefaultId } from '../../utils/helper.js';
 
 export async function seed(knex) {
 
-  let defaultId;
-
-  await knex('users')
-    .select('id')
-    .where({ username: 'Joe da Quebrada' })
-    .then(data => {
-      defaultId = data[0].id;
-    });
+  let defaultId = await getDefaultId();
 
   // Deletes ALL existing entries
   return knex('expenses').del()
