@@ -98,6 +98,13 @@ export async function update(request, response) {
     email,
   } = request.body;
 
+  if (username == null
+      && firstName == null
+      && lastName == null
+      && email == null) {
+    return response.status(400).json({ error: 'Mandatory value missing!' });
+  }
+
   const trx = await db.transaction();
 
   try {

@@ -8,5 +8,11 @@ describe('Test default route', () => {
             .expect(200)
             .expect({ message: 'Tá on' })
             .expect('Content-Type', 'application/json; charset=utf-8');
-    })
-})
+    });
+
+    test('returns API version 1', async () => {
+        await request(app).get('/api/v1')
+            .expect(200)
+            .expect({ apiVersion: 1 });
+    });
+});

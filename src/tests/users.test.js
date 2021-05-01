@@ -72,14 +72,14 @@ describe('/api/v1/users', () => {
     });
 
     test('add user successfully', async () => {
-        
+
         await api.post(USER_API)
             .send(testUser)
             .expect(201);
     });
 
     test('does not add existing user', async () => {
-        
+
         await api.post(USER_API)
             .send(testUser)
             .expect(400);
@@ -128,6 +128,22 @@ describe('/api/v1/users', () => {
                 )
             });
 
+    });
+
+    test('does not update user with missing values', async () => {
+
+        let test_id;
+
+        await db('users')
+            .select('id')
+            .where({ username: TEST_NAME })
+            .then(data => {
+                test_id = data;
+            });
+
+        await api.put(`${USER_API}/${test_id[0].id}`)
+            .expect(400)
+            .expect({ error: 'Mandatory value missing!' })
     });
 
     test('deletes test user', async () => {
