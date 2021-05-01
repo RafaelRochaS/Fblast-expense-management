@@ -78,6 +78,10 @@ export async function update(request, response) {
     dateDue,
   } = request.body;
 
+  if (item == null && value == null && dateDue == null) {
+    return response.status(400).json({ error: 'Mandatory value missing!' });
+  }
+
   const trx = await db.transaction();
 
   try {
@@ -87,6 +91,7 @@ export async function update(request, response) {
         item,
         value,
         dateDue,
+        updatedAt: db.fn.now(),
       });
 
     await trx.commit();
