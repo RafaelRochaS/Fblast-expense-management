@@ -51,6 +51,7 @@ export async function create(request, response) {
     username,
     firstName,
     lastName,
+    income,
     email,
     password,
   } = request.body;
@@ -68,6 +69,7 @@ export async function create(request, response) {
       username,
       firstName,
       lastName,
+      income,
       email,
       password,
     });
@@ -95,13 +97,15 @@ export async function update(request, response) {
     username,
     firstName,
     lastName,
+    income,
     email,
   } = request.body;
 
   if (username == null
       && firstName == null
       && lastName == null
-      && email == null) {
+      && email == null
+      && income == null) {
     return response.status(400).json({ error: 'Mandatory value missing!' });
   }
 
@@ -114,6 +118,7 @@ export async function update(request, response) {
         username,
         firstName,
         lastName,
+        income,
         email,
         updated_at: db.fn.now(),
       });

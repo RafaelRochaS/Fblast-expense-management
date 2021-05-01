@@ -9,6 +9,7 @@ const testUser = {
     username: 'TestUser',
     firstName: 'Test',
     lastName: 'User',
+    income: 490.20,
     email: 'test@user.com',
     password: '123456'
 };
@@ -16,6 +17,7 @@ const testUser = {
 const testUserInvalid = {   // user without last name
     username: 'TestUser',
     firstName: 'Test',
+    income: 300,
     email: 'test@user.com',
     password: '123456'
 };

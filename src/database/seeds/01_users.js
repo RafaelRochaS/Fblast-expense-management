@@ -5,7 +5,7 @@ export function seed(knex) {
     .then(function () {
       // Inserts seed entries
       return knex('users').insert([
-        {username: 'Joe da Quebrada', firstName: 'Joe',  lastName: 'da Quebrada', email: 'joe@quebrada.com', password: '123456'}
+        {username: 'Joe da Quebrada', firstName: 'Joe',  lastName: 'da Quebrada', income: 5000, email: 'joe@quebrada.com', password: '123456'}
       ]);
     });
 }

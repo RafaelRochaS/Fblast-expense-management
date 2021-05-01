@@ -5,11 +5,12 @@ exports.up = function(knex) {
       table.string('username').notNullable();
       table.string('firstName').notNullable();
       table.string('lastName').notNullable();
+      table.decimal('income').notNullable();
       table.string('email').notNullable();
       table.string('password').notNullable();
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at');
-  })
+  });
 };
 
 exports.down = function(knex) {
