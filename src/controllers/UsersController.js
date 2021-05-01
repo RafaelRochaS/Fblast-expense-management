@@ -1,42 +1,6 @@
 /* eslint-disable require-jsdoc */
 import db from '../database/connection.js';
-
-async function checkIdExists(id) {
-  let hasId;
-  let exists = false;
-  const numId = parseInt(id, 10);
-
-  await db('users')
-    .select('id')
-    .then((data) => hasId = data);
-
-  for (let i = 0; i < hasId.length; i += 1) {
-    if (hasId[i].id === numId) {
-      exists = true;
-      break;
-    }
-  }
-
-  return exists;
-}
-
-async function checkUsernameExists(name) {
-  let hasId;
-  let exists = false;
-
-  await db('users')
-    .select('username')
-    .then((data) => hasId = data);
-
-  for (let i = 0; i < hasId.length; i += 1) {
-    if (hasId[i].username === name) {
-      exists = true;
-      break;
-    }
-  }
-
-  return exists;
-}
+import { checkIdExists, checkUsernameExists } from '../utils/helper.js';
 
 export async function index(request, response) {
   let usernameQuery;
