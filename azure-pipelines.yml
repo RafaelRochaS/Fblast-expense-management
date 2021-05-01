@@ -52,7 +52,7 @@ jobs:
       cliProjectName: 'exp-mgmt-svc'
       cliProjectVersion: '0.0.1'
       cliSources: '.'
-      extraProperties: 'sonar.javascript.lcov.reportPaths: ''$(System.DefaultWorkingDirectory)/coverage/lcov.info'''
+      extraProperties: 'sonar.javascript.lcov.reportPaths: ''$(Build.SourcesDirectory)/coverage/lcov.info'''
 
   - task: SonarCloudAnalyze@1
 
