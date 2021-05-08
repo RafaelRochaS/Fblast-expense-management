@@ -14,7 +14,7 @@ export async function index(request, response) {
   }
 
   if (request.query.user != null) {
-    usernameQuery = request.query.user;
+    usernameQuery = decodeURI(request.query.user);
     const exists = await checkUsernameExists(usernameQuery);
 
     if (!exists) {
@@ -82,7 +82,7 @@ export async function create(request, response) {
     console.error(err);
     response
       .status(400)
-      .json({ error: 'Unexpected error while creating new user' });
+      .json({ error: 'Error while creating new user. Please check input values' });
   }
 }
 
@@ -102,10 +102,10 @@ export async function update(request, response) {
   } = request.body;
 
   if (username == null
-      && firstName == null
-      && lastName == null
-      && email == null
-      && income == null) {
+    && firstName == null
+    && lastName == null
+    && email == null
+    && income == null) {
     return response.status(400).json({ error: 'Mandatory value missing!' });
   }
 
@@ -129,7 +129,7 @@ export async function update(request, response) {
   } catch (err) {
     await trx.rollback();
     console.error(err);
-    response.status(400).json({ error: 'Unexpected error while updating user' });
+    response.status(500).json({ error: 'Unexpected error while updating user' });
   }
 }
 

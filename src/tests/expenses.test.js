@@ -125,6 +125,21 @@ describe('/api/v1/expenses', () => {
       .send({ item: 'InvalidTest' })
       .expect(404);
   });
+
+  test('removes expense with userid and expense name', async () => {
+
+    let defaultId = await getDefaultId();
+
+    await api.delete(`${EXPENSES_API}?id=${defaultId}&expense=Electric`)
+      .expect(200);
+  });
+
+  test('returns 404 on removing expense with invalid name', async () => {
+    let defaultId = await getDefaultId();
+
+    await api.delete(`${EXPENSES_API}?id=${defaultId}&expense=zdcxgedyrtjcvcv`)
+      .expect(404);
+  });
 });
 
 async function getTestId() {

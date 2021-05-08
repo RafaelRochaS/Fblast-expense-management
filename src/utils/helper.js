@@ -75,10 +75,22 @@ export async function getDefaultId() {
 
   await db('users')
     .select('id')
-    .where({ username: 'Joe da Quebrada' })
+    .where({ username: 'JoedaQuebrada' })
     .then((data) => {
       defaultId = data[0].id;
     });
 
   return defaultId;
+}
+
+export async function checkExpenseNameExists(exp, id) {
+  let values;
+
+  await db('expenses')
+    .select('userId', 'item')
+    .where({ userId: id })
+    .andWhere({ item: exp })
+    .then((data) => values = data);
+
+  return values.length > 0;
 }

@@ -24,7 +24,7 @@ const testUserInvalid = {   // user without last name
 
 const USER_API = '/api/v1/users';
 const TEST_NAME = 'TestUpdate';
-const DEFAULT_USER_NAME = 'Joe da Quebrada';
+const DEFAULT_USER_NAME = 'JoedaQuebrada';
 const INVALID_USER_NAME = 'çz.;lmx,kcdviosrskojun';
 
 describe('/api/v1/users', () => {
@@ -40,7 +40,7 @@ describe('/api/v1/users', () => {
             .expect(200)
             .expect('Content-Type', 'application/json; charset=utf-8')
             .then(response => {
-                expect(response.body).toMatchObject([{ username: 'Joe da Quebrada' }]);
+                expect(response.body).toMatchObject([{ username: 'JoedaQuebrada' }]);
             });
     });
 
@@ -59,7 +59,7 @@ describe('/api/v1/users', () => {
             .expect(200)
             .expect('Content-Type', 'application/json; charset=utf-8')
             .then(response => {
-                expect(expect(response.body).toMatchObject([{ username: 'Joe da Quebrada' }]));
+                expect(expect(response.body).toMatchObject([{ username: 'JoedaQuebrada' }]));
             });
     });
 
@@ -69,7 +69,7 @@ describe('/api/v1/users', () => {
             .expect(200)
             .expect('Content-Type', 'application/json; charset=utf-8')
             .then(response => {
-                expect(expect(response.body).toMatchObject([{ username: 'Joe da Quebrada' }]));
+                expect(expect(response.body).toMatchObject([{ username: 'JoedaQuebrada' }]));
             });
     });
 
