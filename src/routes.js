@@ -10,6 +10,7 @@ import {
   create as expCreate,
   update as expUpdate,
   remove as expRemove,
+  indexUser as expIndexUser,
 } from './controllers/ExpensesController.js';
 
 // eslint-disable-next-line new-cap
@@ -32,8 +33,10 @@ routes.delete(`${API_V1}/users/:id`, userRemove);
 /** * Expenses */
 routes.get(`${API_V1}/expenses`, expIndex);
 routes.get(`${API_V1}/expenses/:id`, expIndex);
+routes.get(`${API_V1}/expenses/user/:id`, expIndexUser);
 routes.post(`${API_V1}/expenses`, expCreate);
 routes.put(`${API_V1}/expenses/:id`, expUpdate);
 routes.delete(`${API_V1}/expenses/:id`, expRemove);
+routes.delete(`${API_V1}/expenses`, expRemove);
 
 export default routes;
