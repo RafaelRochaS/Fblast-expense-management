@@ -1,0 +1,13 @@
+.vscode
+coverage
+node_modules
+.eslintignore
+.eslintrc.cjs
+.gitignore
+azure-pipelines.yml
+Dockerfile
+jest.config.mjs
+knexfile.cjs
+README.md
+sonar-project.properties
+npm-debug.log

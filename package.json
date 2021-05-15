@@ -4,7 +4,8 @@
   "description": "Microservice for CRUD operations on expenses and income.",
   "main": "start.js",
   "scripts": {
-    "start": "nodemon start.js",
+    "start": "node start.js",
+    "start:dev": "nodemon start.js",
     "test": "npm run knex:seed && NODE_OPTIONS=--experimental-vm-modules npx jest --runInBand --coverage",
     "lint": "node_modules/.bin/eslint .",
     "lint:fix": "node_modules/.bin/eslint . --fix",
