@@ -39,6 +39,13 @@ jobs:
       npm run audit
     displayName: 'Security Audit'
 
+  - task: Docker@2
+    inputs:
+      containerRegistry: 'DockerRegistry'
+      repository: 'expense-management'
+      command: 'buildAndPush'
+      Dockerfile: '**/Dockerfile'
+
   - task: SonarCloudPrepare@1
     inputs:
       SonarCloud: 'SonarCloud'
