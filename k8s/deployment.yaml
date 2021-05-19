@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: expense-management-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      svc: exp-mgmt
+  minReadySeconds: 10
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      name: expense-management-service
+      labels:
+        svc: exp-mgmt
+    spec:
+      containers:
+      - image: fblast.azurecr.io/expense-management:62
+        name: fblast-exp-mgmt-svc
+        readinessProbe:
+          periodSeconds: 10
+          initialDelaySeconds: 10        
+          httpGet:                  
+            path: /                 
+            port: 3000  
+        livenessProbe:
+          periodSeconds: 10
+          initialDelaySeconds: 10        
+          httpGet:                  
+            path: /                 
+            port: 3000 

@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: financial-blast
+spec:
+  rules:
+  - host: financialblast.com.br
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/api"
+        backend:
+          service:
+            name: exp-mgmt-service
+            port:
+              number: 80

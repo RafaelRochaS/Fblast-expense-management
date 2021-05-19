@@ -11,3 +11,6 @@ knexfile.cjs
 README.md
 sonar-project.properties
 npm-debug.log
+deployment.yaml
+service.yaml
+.dockerfile
