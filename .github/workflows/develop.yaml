@@ -32,11 +32,11 @@ jobs:
       - name: Docker Login
         uses: docker/login-action@v1.9.0
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
+          username: rafaelrs94
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Docker Build and Push
         uses: docker/build-push-action@v2.4.0
         with:
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/exp-mgmt-svc:${{ env.GITHUB_RUN_ID }}
+          tags: rafaelrs94/exp-mgmt-svc:${{ env.GITHUB_RUN_ID }}
           
