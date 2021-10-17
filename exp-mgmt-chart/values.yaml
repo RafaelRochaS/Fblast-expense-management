@@ -69,8 +69,8 @@ resources:
     cpu: 100m
     memory: 128Mi
 
-# autoscaling:
-#   enabled: true
+autoscaling:
+  enabled: false
 #   minreplicas: 1
 #   maxreplicas: 5
 #   targetcpuutilizationpercentage: 80
